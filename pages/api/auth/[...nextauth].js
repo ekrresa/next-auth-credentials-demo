@@ -51,9 +51,6 @@ export default NextAuth({
       return token;
     },
   },
-  pages: {
-    signIn: "/auth/signin",
-  },
   // use env variable in production
   secret: "looselipssinkships",
 });

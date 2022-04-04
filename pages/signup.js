@@ -1,8 +1,10 @@
 import * as React from "react";
+import { useRouter } from "next/router";
 import { signIn } from "next-auth/react";
 import styles from "../styles/auth.module.css";
 
 export default function Signup() {
+  const router = useRouter();
   const formRef = React.useRef(null);
   const handleSubmit = async (e) => {
     e.preventDefault();
