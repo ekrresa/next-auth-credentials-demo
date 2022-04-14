@@ -10,12 +10,9 @@ export default NextAuth({
       type: "credentials",
       async authorize(credentials) {
         try {
-          const result = await Auth.login(credentials);
-          result.isLoggedIn = true;
-          return result;
+          return await Auth.login(credentials);
         } catch (error) {
-          console.log(error.message);
-          return null;
+          throw new Error(error.message);
         }
       },
     }),
@@ -25,21 +22,17 @@ export default NextAuth({
       type: "credentials",
       async authorize(credentials) {
         try {
-          const result = await Auth.signup(credentials);
-          result.isLoggedIn = true;
-          return result;
+          return await Auth.signup(credentials);
         } catch (error) {
-          return null;
+          throw new Error(error.message);
         }
       },
     }),
   ],
   callbacks: {
     async signIn({ user }) {
-      // user is the return object from authorize
-      if (user.isLoggedIn) {
-        return true;
-      }
+      // console.log({ user });
+      if (user) return true;
 
       return false;
     },
@@ -47,7 +40,7 @@ export default NextAuth({
       session.user.isLoggedIn = true;
       return session;
     },
-    async jwt({ token }) {
+    async jwt({ token, user }) {
       return token;
     },
   },
